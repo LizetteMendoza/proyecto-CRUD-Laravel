@@ -16,3 +16,24 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/hola-mundo', function () {
+    return view('paginas.Hola-mundo');
+});
+
+Route::get('/grabaciones', function(){
+    return view('paginas.grabaciones');
+});
+
+Route::get('/grabaciones/{nombre}/{year?}/{cantidad?}', function ($nombre, $year=null, $cantidad =10) {
+    /*dd($nombre); verificar si tengo la variable*/
+    return view('paginas.grabaciones', compact('nombre', 'year', 'cantidad')); /* operador punto para directorios o archivos */
+    /*Compact pasa la varible como texto
+    -> with(['nombre]=> $nombre, 'otra => 'otra variable);
+    
+    */
+});                                  //->with(['nombre' => $nombre]); te deja pasar mas variables tambien 
+
+Route::get('/tareas/indexTareas', function(){
+    return view('/paginas.indexTareas');
+});
