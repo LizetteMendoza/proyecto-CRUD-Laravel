@@ -8,15 +8,21 @@
     <style>
         html{
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: black;
+            background-color: rgb(204, 27, 189);
             color: white;
-            
         }
     </style>
 </head>
 <body>
     <h1>Crear tarea</h1>
-    <form action="/tareas" method="POST"> <!--Ruta que recibe y nada mas: store-->
+    <a href="/tareas">Volver</a>
+
+    @isset($tarea)
+        <form action="/tareas/{{$tarea->id}}" method="POST"> {{--Edit--}}
+            @method('PATCH')
+    @else
+        <form action="/tareas" method="POST"> <!--Ruta que recibe y nada mas: store-->
+    @endisset
         @csrf
         <!--Muestra la lista de errores-->
         @if ($errors->any())
@@ -29,25 +35,24 @@
             </div>
         @endif
         <label for="tarea">Tarea</label><br>
-        <input type="text" name="tarea" value="{{old('tarea')}}"><br>
+        <input type="text" name="tarea" value="{{isset($tarea) ? $tarea->tarea : ''}}{{old('tarea')}}"><br>
         @error('tarea')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
         <br>
         <label for="descripcion">Descripción</label><br>
-        <textarea name="descripcion" id="descripcion" cols="21" rows="10">{{old('descripcion')}}</textarea><br>
+        <textarea name="descripcion" id="descripcion" cols="21" rows="10">{{isset($tarea) ? $tarea->descripcion  : ''}}{{old('descripcion')}}</textarea><br>
         @error('descripcion')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
         <br>
         <label for="categoria">Categoria</label><br>
         <select name="categoria" id="categoria">
-            <option value="Escuela">Escuela</option>
-            <option value="Trabajo">Trabajo</option>
-            <option value="Personal">Personal</option>
+            <option value="Escuela"{{isset($tarea) && $tarea->categoria == 'Escuela' ? 'selected': ''}}>Escuela</option>
+            <option value="Trabajo"{{isset($tarea) && $tarea->categoria == 'Trabajo' ? 'selected': ''}}>Trabajo</option>
+            <option value="Personal"{{isset($tarea) && $tarea->categoria == 'Personal' ? 'selected': ''}}>Personal</option>
         </select><br><br><br>
-        <button type="submit">Eviar</button>
-    </form>
-    
+        <button type="submit">Guardar</button>
+    </form>  
 </body>
 </html>
