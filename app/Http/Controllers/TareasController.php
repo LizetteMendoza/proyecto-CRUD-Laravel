@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Tarea;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-
-class TareaController extends Controller
+class TareasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +13,11 @@ class TareaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $tareas = DB::table('tareas')->get(); //Equivale a SELECT * FROM tareas;
+    {   
+        //$tareas = DB::table('tareas')->get(); //Equivale a SELECT * FROM tareas;
         //dd($tareas);
+        $tareas = Tarea::all();
+
         return view('tareas.indexTareas', compact('tareas'));
     }
 
@@ -39,7 +39,23 @@ class TareaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+       
+        $request->validate([
+            'tarea'=>'required |min:5|max:225',
+            'descripcion'=>'required |min:5',
+            'categoria'=> 'required'
+
+        ]);
+
+        $tarea = new Tarea();
+        $tarea -> tarea = $request->tarea;
+        $tarea -> descripcion = $request->descripcion;
+        $tarea -> categoria = $request->categoria;
+
+        $tarea->save();
+
+        return redirect()->route('tareas.store');
     }
 
     /**

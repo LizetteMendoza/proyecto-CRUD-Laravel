@@ -16,11 +16,30 @@
 </head>
 <body>
     <h1>Crear tarea</h1>
-    <form action="/tareas/store" method="POST"> <!--Ruta que recibe y nada mas: store-->
+    <form action="/tareas" method="POST"> <!--Ruta que recibe y nada mas: store-->
+        @csrf
+        <!--Muestra la lista de errores-->
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <label for="tarea">Tarea</label><br>
-        <input type="text" name="tarea"><br>
+        <input type="text" name="tarea" value="{{old('tarea')}}"><br>
+        @error('tarea')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+        <br>
         <label for="descripcion">Descripción</label><br>
-        <textarea name="descripcion" id="descripcion" cols="21" rows="10"></textarea><br>
+        <textarea name="descripcion" id="descripcion" cols="21" rows="10">{{old('descripcion')}}</textarea><br>
+        @error('descripcion')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+        <br>
         <label for="categoria">Categoria</label><br>
         <select name="categoria" id="categoria">
             <option value="Escuela">Escuela</option>

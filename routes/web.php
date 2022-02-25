@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\TareaController;
+use App\Http\Controllers\TareasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,15 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/tareas', [TareaController::class,'index']);
-
-Route::get('/tareas/create', [TareaController::class,'create']);
-
-Route::post('/tareas/store',function(){
-    //Validacoin y limpieza
-    //Guardar DB
-    //Redirigir
-});
+Route::resource('/tareas', TareasController::class);
 
 Route::get('/hola-mundo', function () {
     return view('paginas.Hola-mundo');
