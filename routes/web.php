@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\TareaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +19,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/tareas', function (){
-    $tareas = DB::table('tareas')->get(); //Equivale a SELECT * FROM tareas;
-    //dd($tareas);
-    return view('tareas.indexTareas', compact('tareas'));
+Route::get('/tareas', [TareaController::class,'index']);
+
+Route::get('/tareas/create', [TareaController::class,'create']);
+
+Route::post('/tareas/store',function(){
+    //Validacoin y limpieza
+    //Guardar DB
+    //Redirigir
 });
 
 Route::get('/hola-mundo', function () {
@@ -31,6 +36,8 @@ Route::get('/hola-mundo', function () {
 Route::get('/grabaciones', function(){
     return view('paginas.grabaciones');
 });
+
+
 
 Route::get('/grabaciones/{nombre}/{year?}/{cantidad?}', function ($nombre, $year=null, $cantidad =10) {
     /*dd($nombre); verificar si tengo la variable*/
