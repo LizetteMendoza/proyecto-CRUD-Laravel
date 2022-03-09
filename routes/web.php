@@ -42,3 +42,6 @@ Route::get('/grabaciones/{nombre}/{year?}/{cantidad?}', function ($nombre, $year
 Route::get('/tareas/indexTareas', function(){
     return view('/paginas.indexTareas');
 });
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
